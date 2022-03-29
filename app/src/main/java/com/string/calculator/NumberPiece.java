@@ -10,6 +10,7 @@ public class NumberPiece {
 
   public String getNumber() {
     String number = stringBuilder.toString();
+    // TODO: 이런 상태가 변경되는 지점 -> 최상위로
     stringBuilder.setLength(0);
     return number;
   }

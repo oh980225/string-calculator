@@ -1,6 +1,7 @@
 package com.string.calculator.collection;
 
 import com.string.calculator.OperatorSign;
+
 import java.util.Stack;
 
 public class OperatorCollection {
