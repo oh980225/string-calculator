@@ -4,11 +4,11 @@ import com.string.calculator.calculate.ArithmeticOperation;
 import com.string.calculator.calculate.OperationFactory;
 
 
-public class Calculate {
+public class Calculator {
 
   private final OperationFactory operationFactory;
 
-  public Calculate(OperationFactory calculateFactory) {
+  public Calculator(OperationFactory calculateFactory) {
     this.operationFactory = calculateFactory;
   }
 
@@ -18,4 +18,7 @@ public class Calculate {
     return operation.calculateOne(operatorSign);
   }
 
+  String execute(Formula formula) {
+    return null;
+  }
 }
