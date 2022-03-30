@@ -12,20 +12,12 @@ public class OperatorCollection {
     return operatorSignStack.pop();
   }
 
-  public boolean isEmpty() {
-    return operatorSignStack.isEmpty();
-  }
-
   public int size() {
     return operatorSignStack.size();
   }
 
   public void add(OperatorSign operatorSign) {
     operatorSignStack.add(operatorSign);
-  }
-
-  public OperatorSign peek() {
-    return operatorSignStack.peek();
   }
 
   public void reverse() {
@@ -38,4 +30,18 @@ public class OperatorCollection {
     operatorSignStack = temp;
   }
 
+  public boolean existHighOperatorSign(NumberCollection numberCollection) {
+    if (operatorSignStack.isEmpty()) {
+      return false;
+    }
+
+    // 스택에 연산자보다 숫자가 더 많아야함
+    if (operatorSignStack.size() >= numberCollection.size()) {
+      return false;
+    }
+
+    OperatorSign lastOperator = operatorSignStack.peek();
+
+    return lastOperator == OperatorSign.divide || lastOperator == OperatorSign.multiply;
+  }
 }
