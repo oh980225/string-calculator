@@ -14,75 +14,10 @@ import static com.string.calculator.OperatorSign.isSupportedOperator;
  * 연산자가 있으면 연산을 해줘야 하는 상황....
  */
 public class Run {
-  private final NumberCollection numberCollection = new NumberCollection();
-  private final OperatorCollection operatorCollection = new OperatorCollection();
-  private final NumberPiece numberPiece = new NumberPiece();
-  private final Calculator calculator;
-
-  public Run() {
-    this.calculator = new Calculator(new OperationFactory());
-  }
-
   // TODO: 메서드가 자기가 있어야할 곳에 있게 하자!
   public String calculate(String input) {
-    List<Character> list = input.chars()
-      .mapToObj(c -> (char) c)
-      .toList();
+    var formula = new Formula(input);
 
-    for (Character c : list) {
-      execute(c);
-    }
-
-    checkLast();
-    return getResult();
-  }
-
-  private void checkLast() {
-    if (numberPiece.hasNumber()) {
-      numberCollection.add(numberPiece.getNumber());
-    }
-
-    if (operatorCollection.existHighOperatorSignAtTheTop()
-      && moreNumbersThanOperator(numberCollection, operatorCollection)) {
-      calculator.executeForBinary(numberCollection, operatorCollection);
-    }
-  }
-
-  private String getResult() {
-    numberCollection.reverse();
-    operatorCollection.reverse();
-
-    while (numberCollection.size() > 1) {
-      calculator.executeForBinary(numberCollection, operatorCollection);
-    }
-
-    return numberCollection.getOne();
-  }
-
-  private void execute(Character c) {
-    if (operatorCollection.existHighOperatorSignAtTheTop()
-      && moreNumbersThanOperator(numberCollection, operatorCollection)) {
-      calculator.executeForBinary(numberCollection, operatorCollection);
-    }
-
-    if (isSupportedOperator(c)) {
-      operatorCollection.add(OperatorSign.valueOf(c));
-    }
-
-    if (canAddNumberToCollection(c)) {
-      numberCollection.add(numberPiece.getNumber());
-    }
-
-    if (isNumberPiece(c)) {
-      numberPiece.add(c);
-    }
-  }
-
-  private boolean isNumberPiece(Character c) {
-    return c >= '0' && c <= '9';
-  }
-
-  private boolean canAddNumberToCollection(char c) {
-    return c == ' ' && numberPiece.hasNumber();
+    return formula.result();
   }
 }

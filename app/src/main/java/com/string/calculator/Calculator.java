@@ -7,11 +7,7 @@ import com.string.calculator.collection.OperatorCollection;
 
 
 public class Calculator {
-  private final OperationFactory operationFactory;
-
-  public Calculator(OperationFactory calculateFactory) {
-    this.operationFactory = calculateFactory;
-  }
+  private final OperationFactory operationFactory = new OperationFactory();
 
   public void executeForBinary(NumberCollection numberCollection, OperatorCollection operatorCollection) {
     String leftValue = numberCollection.getOne();
@@ -19,9 +15,5 @@ public class Calculator {
     OperatorSign operatorSign = operatorCollection.getOne();
     ArithmeticOperation operation = operationFactory.create(leftValue, rightValue);
     numberCollection.add(operation.calculateOne(operatorSign));
-  }
-
-  String execute(Formula formula) {
-    return null;
   }
 }
