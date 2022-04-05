@@ -25,10 +25,6 @@ public class Run {
 
   // TODO: 메서드가 자기가 있어야할 곳에 있게 하자!
   public String calculate(String input) {
-//    Formula formula = new Formula(input);
-//
-//    return calculator.execute(formula);
-
     List<Character> list = input.chars()
       .mapToObj(c -> (char) c)
       .toList();
@@ -46,7 +42,7 @@ public class Run {
       numberCollection.add(numberPiece.getNumber());
     }
 
-    if (operatorCollection.existHighOperatorSign()
+    if (operatorCollection.existHighOperatorSignAtTheTop()
       && moreNumbersThanOperator(numberCollection, operatorCollection)) {
       calculator.executeForBinary(numberCollection, operatorCollection);
     }
@@ -64,7 +60,7 @@ public class Run {
   }
 
   private void execute(Character c) {
-    if (operatorCollection.existHighOperatorSign()
+    if (operatorCollection.existHighOperatorSignAtTheTop()
       && moreNumbersThanOperator(numberCollection, operatorCollection)) {
       calculator.executeForBinary(numberCollection, operatorCollection);
     }

@@ -30,7 +30,7 @@ public class OperatorCollection {
     operatorSignStack = temp;
   }
 
-  public boolean existHighOperatorSign() {
+  public boolean existHighOperatorSignAtTheTop() {
     if (operatorSignStack.isEmpty()) {
       return false;
     }
