@@ -2,20 +2,23 @@ package com.string.calculator;
 
 import com.string.calculator.calculate.ArithmeticOperation;
 import com.string.calculator.calculate.OperationFactory;
+import com.string.calculator.collection.NumberCollection;
+import com.string.calculator.collection.OperatorCollection;
 
 
 public class Calculator {
-
   private final OperationFactory operationFactory;
 
   public Calculator(OperationFactory calculateFactory) {
     this.operationFactory = calculateFactory;
   }
 
-  public String one(String leftValue, String rightValue, OperatorSign operatorSign) {
-    // 객체 생성을 동적으로 해야하는 경우
+  public void executeForBinary(NumberCollection numberCollection, OperatorCollection operatorCollection) {
+    String leftValue = numberCollection.getOne();
+    String rightValue = numberCollection.getOne();
+    OperatorSign operatorSign = operatorCollection.getOne();
     ArithmeticOperation operation = operationFactory.create(leftValue, rightValue);
-    return operation.calculateOne(operatorSign);
+    numberCollection.add(operation.calculateOne(operatorSign));
   }
 
   String execute(Formula formula) {

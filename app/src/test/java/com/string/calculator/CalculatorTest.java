@@ -1,6 +1,8 @@
 package com.string.calculator;
 
 import com.string.calculator.calculate.OperationFactory;
+import com.string.calculator.collection.NumberCollection;
+import com.string.calculator.collection.OperatorCollection;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,5 +19,19 @@ class CalculatorTest {
     var actual = calculator.execute(new Formula("123 + 23 * 15"));
 
     assertThat(actual, is("468"));
+  }
+
+  @Test
+  void executeForBinary() {
+    var calculator = new Calculator(new OperationFactory());
+    var numberCollection = new NumberCollection();
+    var operatorCollection = new OperatorCollection();
+    numberCollection.add("12");
+    operatorCollection.add(OperatorSign.plus);
+    numberCollection.add("5");
+
+    calculator.executeForBinary(numberCollection, operatorCollection);
+
+    assertThat(numberCollection.getOne(), is("17"));
   }
 }

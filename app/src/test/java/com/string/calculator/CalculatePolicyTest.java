@@ -16,6 +16,6 @@ class CalculatePolicyTest {
     operatorCollection.add(OperatorSign.plus);
     numberCollection.add("23");
 
-    assertThat(CalculatePolicy.moreNumbersThanOperator(operatorCollection, numberCollection), is(true));
+    assertThat(CalculatePolicy.moreNumbersThanOperator(numberCollection, operatorCollection), is(true));
   }
 }
