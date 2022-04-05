@@ -5,7 +5,7 @@ import com.string.calculator.collection.OperatorCollection;
 
 import java.util.Arrays;
 
-import static com.string.calculator.CalculatePolicy.moreNumbersThanOperator;
+import static com.string.calculator.CalculatePolicy.needToCalculateInAdvance;
 import static com.string.calculator.OperatorSign.isSupportedOperator;
 
 class Formula {
@@ -16,20 +16,24 @@ class Formula {
   Formula(String stringFormula) {
     var list = Arrays.stream(stringFormula.split(" ")).toList();
     list.forEach(element -> {
-      if (isSupportedOperator(element.charAt(0))) {
-        operatorCollection.add(OperatorSign.valueOf(element.charAt(0)));
-      } else {
-        numberCollection.add(element);
-      }
+      putAppropriateCollection(element);
 
-      if (operatorCollection.existHighOperatorSignAtTheTop()
-        && moreNumbersThanOperator(numberCollection, operatorCollection)) {
+      if (needToCalculateInAdvance(numberCollection, operatorCollection)) {
         calculator.executeForBinary(numberCollection, operatorCollection);
       }
     });
   }
 
-  public String result() {
+  private void putAppropriateCollection(String element) {
+    if (isSupportedOperator(element.charAt(0))) {
+      operatorCollection.add(OperatorSign.valueOf(element.charAt(0)));
+      return;
+    }
+
+    numberCollection.add(element);
+  }
+
+  String result() {
     numberCollection.reverse();
     operatorCollection.reverse();
 

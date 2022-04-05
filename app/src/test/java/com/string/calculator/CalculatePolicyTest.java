@@ -13,9 +13,9 @@ class CalculatePolicyTest {
     var operatorCollection = new OperatorCollection();
     var numberCollection = new NumberCollection();
     numberCollection.add("12");
-    operatorCollection.add(OperatorSign.plus);
+    operatorCollection.add(OperatorSign.multiply);
     numberCollection.add("23");
 
-    assertThat(CalculatePolicy.moreNumbersThanOperator(numberCollection, operatorCollection), is(true));
+    assertThat(CalculatePolicy.needToCalculateInAdvance(numberCollection, operatorCollection), is(true));
   }
 }
