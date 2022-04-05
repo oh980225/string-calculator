@@ -30,13 +30,8 @@ public class OperatorCollection {
     operatorSignStack = temp;
   }
 
-  public boolean existHighOperatorSign(NumberCollection numberCollection) {
+  public boolean existHighOperatorSign() {
     if (operatorSignStack.isEmpty()) {
-      return false;
-    }
-
-    // 스택에 연산자보다 숫자가 더 많아야함
-    if (operatorSignStack.size() >= numberCollection.size()) {
       return false;
     }
 
