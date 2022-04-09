@@ -1,7 +1,5 @@
 package com.string.calculator;
 
-import com.string.calculator.collection.NumberCollection;
-import com.string.calculator.collection.OperatorCollection;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,14 +9,9 @@ class CalculatorTest {
   @Test
   void executeForBinary() {
     var calculator = new Calculator();
-    var numberCollection = new NumberCollection();
-    var operatorCollection = new OperatorCollection();
-    numberCollection.add("12");
-    operatorCollection.add(OperatorSign.plus);
-    numberCollection.add("5");
 
-    calculator.executeForBinary(numberCollection, operatorCollection);
+    var actual = calculator.executeForBinary("12", "5", OperatorSign.plus);
 
-    assertThat(numberCollection.getOne(), is("17"));
+    assertThat(actual, is("17"));
   }
 }

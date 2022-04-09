@@ -8,19 +8,19 @@ public class OperatorCollection {
 
   private Stack<OperatorSign> operatorSignStack = new Stack<>();
 
-  public OperatorSign getOne() {
+  OperatorSign getOne() {
     return operatorSignStack.pop();
   }
 
-  public int size() {
+  int size() {
     return operatorSignStack.size();
   }
 
-  public void add(OperatorSign operatorSign) {
+  void add(OperatorSign operatorSign) {
     operatorSignStack.add(operatorSign);
   }
 
-  public void reverse() {
+  void reverse() {
     Stack<OperatorSign> temp = new Stack<>();
 
     while (!operatorSignStack.isEmpty()) {
@@ -30,7 +30,7 @@ public class OperatorCollection {
     operatorSignStack = temp;
   }
 
-  public boolean existHighOperatorSignAtTheTop() {
+  boolean existHighOperatorSignAtTheTop() {
     if (operatorSignStack.isEmpty()) {
       return false;
     }

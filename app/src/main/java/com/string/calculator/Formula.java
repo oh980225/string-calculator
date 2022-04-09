@@ -1,46 +1,25 @@
 package com.string.calculator;
 
-import com.string.calculator.collection.NumberCollection;
-import com.string.calculator.collection.OperatorCollection;
+import com.string.calculator.collection.FormulaStack;
 
 import java.util.Arrays;
 
-import static com.string.calculator.CalculatePolicy.needToCalculateInAdvance;
-import static com.string.calculator.OperatorSign.isSupportedOperator;
-
 class Formula {
-  private final NumberCollection numberCollection = new NumberCollection();
-  private final OperatorCollection operatorCollection = new OperatorCollection();
+  private final FormulaStack stack = new FormulaStack();
   private final Calculator calculator = new Calculator();
 
   Formula(String stringFormula) {
     var list = Arrays.stream(stringFormula.split(" ")).toList();
     list.forEach(element -> {
-      putAppropriateCollection(element);
+      stack.put(element);
 
-      if (needToCalculateInAdvance(numberCollection, operatorCollection)) {
-        calculator.executeForBinary(numberCollection, operatorCollection);
+      if (stack.needToCalculateInAdvance()) {
+        stack.put(calculator.executeForBinary(stack.popNumber(), stack.popNumber(), stack.popOperator()));
       }
     });
   }
 
-  private void putAppropriateCollection(String element) {
-    if (isSupportedOperator(element.charAt(0))) {
-      operatorCollection.add(OperatorSign.valueOf(element.charAt(0)));
-      return;
-    }
-
-    numberCollection.add(element);
-  }
-
   String result() {
-    numberCollection.reverse();
-    operatorCollection.reverse();
-
-    while (numberCollection.size() > 1) {
-      calculator.executeForBinary(numberCollection, operatorCollection);
-    }
-
-    return numberCollection.getOne();
+    return calculator.executeForTheRestInStack(stack);
   }
 }

@@ -6,19 +6,19 @@ public class NumberCollection {
 
   private Stack<String> numberStack = new Stack<>();
 
-  public String getOne() {
+  String getOne() {
     return numberStack.pop();
   }
 
-  public void add(String number) {
+  void add(String number) {
     numberStack.add(number);
   }
 
-  public int size() {
+  int size() {
     return numberStack.size();
   }
 
-  public void reverse() {
+  void reverse() {
     Stack<String> temp = new Stack<>();
 
     while (!numberStack.isEmpty()) {

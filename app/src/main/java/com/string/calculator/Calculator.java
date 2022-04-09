@@ -2,18 +2,25 @@ package com.string.calculator;
 
 import com.string.calculator.calculate.ArithmeticOperation;
 import com.string.calculator.calculate.OperationFactory;
-import com.string.calculator.collection.NumberCollection;
-import com.string.calculator.collection.OperatorCollection;
+import com.string.calculator.collection.FormulaStack;
 
 
 public class Calculator {
   private final OperationFactory operationFactory = new OperationFactory();
 
-  public void executeForBinary(NumberCollection numberCollection, OperatorCollection operatorCollection) {
-    String leftValue = numberCollection.getOne();
-    String rightValue = numberCollection.getOne();
-    OperatorSign operatorSign = operatorCollection.getOne();
+  public String executeForBinary(String leftValue, String rightValue, OperatorSign operatorSign) {
     ArithmeticOperation operation = operationFactory.create(leftValue, rightValue);
-    numberCollection.add(operation.calculateOne(operatorSign));
+
+    return operation.calculateOne(operatorSign);
+  }
+
+  public String executeForTheRestInStack(FormulaStack stack) {
+    stack.reverse();
+
+    while (stack.needToCalculate()) {
+      stack.put(executeForBinary(stack.popNumber(), stack.popNumber(), stack.popOperator()));
+    }
+
+    return stack.popNumber();
   }
 }
