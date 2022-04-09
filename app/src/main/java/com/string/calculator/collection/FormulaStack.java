@@ -5,37 +5,37 @@ import com.string.calculator.OperatorSign;
 import static com.string.calculator.OperatorSign.isSupportedOperator;
 
 public class FormulaStack {
-  private final NumberCollection numberCollection = new NumberCollection();
-  private final OperatorCollection operatorCollection = new OperatorCollection();
+  private final NumberStack numberStack = new NumberStack();
+  private final OperatorStack operatorStack = new OperatorStack();
 
   public void put(String element) {
     if (isSupportedOperator(element.charAt(0))) {
-      operatorCollection.add(OperatorSign.valueOf(element.charAt(0)));
+      operatorStack.add(OperatorSign.valueOf(element.charAt(0)));
       return;
     }
 
-    numberCollection.add(element);
+    numberStack.add(element);
   }
 
   public boolean needToCalculateInAdvance() {
-    return operatorCollection.existHighOperatorSignAtTheTop() &&
-      (operatorCollection.size() < numberCollection.size());
+    return operatorStack.existHighOperatorSignAtTheTop() &&
+      (operatorStack.size() < numberStack.size());
   }
 
   public void reverse() {
-    numberCollection.reverse();
-    operatorCollection.reverse();
+    numberStack.reverse();
+    operatorStack.reverse();
   }
 
   public boolean needToCalculate() {
-    return numberCollection.size() > 1 && operatorCollection.size() != 0;
+    return numberStack.size() > 1 && operatorStack.size() != 0;
   }
 
   public String popNumber() {
-    return numberCollection.getOne();
+    return numberStack.getOne();
   }
 
   public OperatorSign popOperator() {
-    return operatorCollection.getOne();
+    return operatorStack.getOne();
   }
 }

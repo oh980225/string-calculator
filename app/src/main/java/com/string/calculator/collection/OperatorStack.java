@@ -4,38 +4,38 @@ import com.string.calculator.OperatorSign;
 
 import java.util.Stack;
 
-public class OperatorCollection {
+public class OperatorStack {
 
-  private Stack<OperatorSign> operatorSignStack = new Stack<>();
+  private Stack<OperatorSign> stack = new Stack<>();
 
   OperatorSign getOne() {
-    return operatorSignStack.pop();
+    return stack.pop();
   }
 
   int size() {
-    return operatorSignStack.size();
+    return stack.size();
   }
 
   void add(OperatorSign operatorSign) {
-    operatorSignStack.add(operatorSign);
+    stack.add(operatorSign);
   }
 
   void reverse() {
     Stack<OperatorSign> temp = new Stack<>();
 
-    while (!operatorSignStack.isEmpty()) {
-      OperatorSign pop = operatorSignStack.pop();
+    while (!stack.isEmpty()) {
+      OperatorSign pop = stack.pop();
       temp.add(pop);
     }
-    operatorSignStack = temp;
+    stack = temp;
   }
 
   boolean existHighOperatorSignAtTheTop() {
-    if (operatorSignStack.isEmpty()) {
+    if (stack.isEmpty()) {
       return false;
     }
 
-    OperatorSign lastOperator = operatorSignStack.peek();
+    OperatorSign lastOperator = stack.peek();
 
     return lastOperator == OperatorSign.divide || lastOperator == OperatorSign.multiply;
   }
