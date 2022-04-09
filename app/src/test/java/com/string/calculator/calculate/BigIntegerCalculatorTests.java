@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("큰 수 (long 타입 범위 밖)")
-class BigIntegerCalculateTests {
+class BigIntegerCalculatorTests {
 
   ArithmeticOperation calculate;
 
