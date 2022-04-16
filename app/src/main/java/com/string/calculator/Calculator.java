@@ -1,7 +1,7 @@
 package com.string.calculator;
 
-import com.string.calculator.calculate.ArithmeticOperation;
-import com.string.calculator.calculate.OperationFactory;
+import com.string.calculator.operation.ArithmeticOperation;
+import com.string.calculator.operation.OperationFactory;
 import com.string.calculator.collection.FormulaStack;
 
 
