@@ -50,7 +50,7 @@ public class Run {
       numberPiece.setLength(0);
     }
 
-    if (existHighOperatorSign()) {
+    if (existHighOperatorSign() && moreNumberThanOperator()) {
       addNumber();
     }
   }
@@ -89,7 +89,7 @@ public class Run {
   }
 
   private void execute(Character c) {
-    if (existHighOperatorSign()) {
+    if (existHighOperatorSign() && moreNumberThanOperator()) {
       addNumber();
     }
 
@@ -108,7 +108,7 @@ public class Run {
   }
 
   private boolean isNumberPiece(Character c) {
-    return c >= '0' && c <= '9';
+    return '0' <= c && c <= '9';
   }
 
   private void addNumber() {
@@ -124,12 +124,12 @@ public class Run {
       return false;
     }
 
-    if (operatorSignStack.size() >= numberStack.size()) {
-      return false;
-    }
-
     OperatorSign lastOperator = operatorSignStack.peek();
     return lastOperator == OperatorSign.divide || lastOperator == OperatorSign.multiply;
+  }
+
+  private boolean moreNumberThanOperator() {
+    return numberStack.size() > operatorSignStack.size();
   }
 
   private boolean canAddNumberToCollection(char c) {
