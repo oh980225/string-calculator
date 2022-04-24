@@ -1,6 +1,6 @@
 package com.string.calculator;
 
-import com.string.calculator.calculate.OperationFactory;
+import com.string.calculator.operation.OperationFactory;
 
 import java.util.List;
 import java.util.Stack;
@@ -24,8 +24,6 @@ import static java.util.Collections.reverse;
 // 상태가 변하는 걸 위로 올리니 책임을 어떻게 나눠야할지 모르겠다...
 // 상태와 관련된 책임을 나누는 순간 depth가 추가된다...
 
-// TODO: 상태가 변하는 코드는 그대로 두고, 그 외의 코드 중에서 책임을 분리해보자..!(조건식 같은 것..! 선행 계산 조건 등!)
-// TODO: 인자도 2개 이하로 해보자했으니, Calculate를 위한 연산 대상자를 위한 data class를 만들자..!
 public class Run {
   // 상태 관련
   private final Stack<StringNumber> numberStack = new Stack<>();
