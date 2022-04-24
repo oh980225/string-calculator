@@ -7,10 +7,10 @@ import java.util.Stack;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-class ExistHighOperatorTest {
+class HighOperatorConditionTest {
   @Test
   void check() {
-    var existHighOperator = new ExistHighOperator();
+    var existHighOperator = new HighOperatorCondition();
     Stack<OperatorSign> stack = new Stack<>();
     stack.push(OperatorSign.plus);
     stack.push(OperatorSign.subtract);
