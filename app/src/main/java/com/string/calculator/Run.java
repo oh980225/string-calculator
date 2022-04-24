@@ -27,17 +27,15 @@ import static java.util.Collections.reverse;
 // TODO: 상태가 변하는 코드는 그대로 두고, 그 외의 코드 중에서 책임을 분리해보자..!(조건식 같은 것..! 선행 계산 조건 등!)
 // TODO: 인자도 2개 이하로 해보자했으니, Calculate를 위한 연산 대상자를 위한 data class를 만들자..!
 public class Run {
+  // 상태 관련
   private final Stack<StringNumber> numberStack = new Stack<>();
   private final Stack<OperatorSign> operatorSignStack = new Stack<>();
   private final StringBuilder numberPiece = new StringBuilder();
 
+  // 의존
   private final PreCalculateCondition preCalculateCondition =
     new AllPreCalculateCondition(numberStack, operatorSignStack);
-  private final Calculate calculate;
-
-  public Run() {
-    this.calculate = new Calculate(new OperationFactory());
-  }
+  private final Calculator calculator = new Calculator(new OperationFactory());
 
   public String calculate(String input) {
     List<Character> chars = input.chars()
@@ -54,13 +52,18 @@ public class Run {
 
   private void checkLast() {
     if (!numberPiece.isEmpty()) {
-      numberStack.add(new StringNumber(numberPiece.toString()));
-      numberPiece.setLength(0);
+      numberStack.add(takeOutNumber());
     }
 
     if (preCalculateCondition.check()) {
       addNumber();
     }
+  }
+
+  private StringNumber takeOutNumber() {
+    var number = new StringNumber(numberPiece.toString());
+    numberPiece.setLength(0);
+    return number;
   }
 
   private String getResult() {
@@ -84,24 +87,23 @@ public class Run {
     }
 
     if (canAddNumberToCollection(c)) {
-      numberStack.add(new StringNumber(numberPiece.toString()));
-      numberPiece.setLength(0);
+      numberStack.add(takeOutNumber());
     }
 
-    if (isNumberPiece(c)) {
+    if (zeroToNine(c)) {
       numberPiece.append(c);
     }
   }
 
-  private boolean isNumberPiece(Character c) {
+  private boolean zeroToNine(Character c) {
     return '0' <= c && c <= '9';
   }
 
   private void addNumber() {
-    StringNumber leftValue = numberStack.pop();
-    StringNumber rightValue = numberStack.pop();
+    StringNumber left = numberStack.pop();
+    StringNumber right = numberStack.pop();
     OperatorSign operatorSign = operatorSignStack.pop();
-    StringNumber result = calculate.one(new Binomial(leftValue, rightValue, operatorSign));
+    StringNumber result = calculator.execute(new Binomial(left, right, operatorSign));
     numberStack.add(result);
   }
 

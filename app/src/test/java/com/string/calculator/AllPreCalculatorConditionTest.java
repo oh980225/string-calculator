@@ -8,7 +8,7 @@ import static com.string.calculator.OperatorSign.multiply;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-class AllPreCalculateConditionTest {
+class AllPreCalculatorConditionTest {
   @Test
   void check_exist_high_operator_and_more_number() {
     Stack<StringNumber> numberStack = new Stack<>();

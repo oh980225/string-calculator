@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("long 타입 내의 정수")
-class PrimitiveCalculateTests {
+class PrimitiveCalculatorTests {
 
   ArithmeticOperation calculate;
 
