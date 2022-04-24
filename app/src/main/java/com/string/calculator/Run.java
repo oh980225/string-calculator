@@ -24,6 +24,7 @@ import static java.util.Collections.reverse;
 // 상태가 변하는 걸 위로 올리니 책임을 어떻게 나눠야할지 모르겠다...
 // 상태와 관련된 책임을 나누는 순간 depth가 추가된다...
 
+// 파싱 + 계산 + 오케스트레이션[관리 책임]
 public class Run {
   // 상태 관련
   private final Stack<StringNumber> numberStack = new Stack<>();
@@ -41,7 +42,12 @@ public class Run {
       .toList();
 
     for (Character c : chars) {
-      execute(c);
+      if (preCalculateCondition.check()) {  // 계산
+        addNumber();
+      }
+
+      var result = parse(c);
+      if(result.stringNumber() == null &&)
     }
 
     checkLast();
@@ -75,29 +81,27 @@ public class Run {
     return numberStack.pop().value();
   }
 
-  private void execute(Character c) {
-    if (preCalculateCondition.check()) {
-      addNumber();
+  private Result parse(Character c) {
+    if (isSupportedOperator(c)) { // 파싱
+      return new Result(valueOf(c), null);
     }
 
-    if (isSupportedOperator(c)) {
-      operatorSignStack.add(valueOf(c));
+    if (canAddNumberToCollection(c)) { // 파싱
+      return new Result(null, new StringNumber(numberPiece.toString()));;
     }
 
-    if (canAddNumberToCollection(c)) {
-      numberStack.add(takeOutNumber());
+    if (zeroToNine(c)) { // 파싱
+      return new Result(null, null);
     }
 
-    if (zeroToNine(c)) {
-      numberPiece.append(c);
-    }
+    throw new IllegalArgumentException("Good Game");
   }
 
   private boolean zeroToNine(Character c) {
     return '0' <= c && c <= '9';
   }
-
-  private void addNumber() {
+// 미리 계산하는건 계산을 위한 책임! 파싱의 책임이 아니다..!
+  private void addNumber() { // 파싱 + 계산 둘다 쓰임... -> 원래는 계산이어야... 근데 호출 시점은 파싱이 결정...
     StringNumber left = numberStack.pop();
     StringNumber right = numberStack.pop();
     OperatorSign operatorSign = operatorSignStack.pop();
