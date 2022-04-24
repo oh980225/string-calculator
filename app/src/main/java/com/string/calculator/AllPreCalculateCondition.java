@@ -6,7 +6,7 @@ public class AllPreCalculateCondition implements PreCalculateCondition {
   private final HighOperatorCondition highOperatorCondition;
   private final MoreNumberCondition moreNumberCondition;
 
-  public AllPreCalculateCondition(Stack<String> numberStack, Stack<OperatorSign> operatorSignStack) {
+  public AllPreCalculateCondition(Stack<StringNumber> numberStack, Stack<OperatorSign> operatorSignStack) {
     this.highOperatorCondition = new HighOperatorCondition(operatorSignStack);
     this.moreNumberCondition = new MoreNumberCondition(numberStack, operatorSignStack);
   }

@@ -27,7 +27,7 @@ import static java.util.Collections.reverse;
 // TODO: 상태가 변하는 코드는 그대로 두고, 그 외의 코드 중에서 책임을 분리해보자..!(조건식 같은 것..! 선행 계산 조건 등!)
 // TODO: 인자도 2개 이하로 해보자했으니, Calculate를 위한 연산 대상자를 위한 data class를 만들자..!
 public class Run {
-  private final Stack<String> numberStack = new Stack<>();
+  private final Stack<StringNumber> numberStack = new Stack<>();
   private final Stack<OperatorSign> operatorSignStack = new Stack<>();
   private final StringBuilder numberPiece = new StringBuilder();
 
@@ -54,7 +54,7 @@ public class Run {
 
   private void checkLast() {
     if (!numberPiece.isEmpty()) {
-      numberStack.add(numberPiece.toString());
+      numberStack.add(new StringNumber(numberPiece.toString()));
       numberPiece.setLength(0);
     }
 
@@ -71,7 +71,7 @@ public class Run {
       addNumber();
     }
 
-    return numberStack.pop();
+    return numberStack.pop().value();
   }
 
   private void execute(Character c) {
@@ -84,7 +84,7 @@ public class Run {
     }
 
     if (canAddNumberToCollection(c)) {
-      numberStack.add(numberPiece.toString());
+      numberStack.add(new StringNumber(numberPiece.toString()));
       numberPiece.setLength(0);
     }
 
@@ -98,10 +98,10 @@ public class Run {
   }
 
   private void addNumber() {
-    String leftValue = numberStack.pop();
-    String rightValue = numberStack.pop();
+    StringNumber leftValue = numberStack.pop();
+    StringNumber rightValue = numberStack.pop();
     OperatorSign operatorSign = operatorSignStack.pop();
-    String result = calculate.one(leftValue, rightValue, operatorSign);
+    StringNumber result = calculate.one(new Binomial(leftValue, rightValue, operatorSign));
     numberStack.add(result);
   }
 

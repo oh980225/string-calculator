@@ -11,11 +11,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class MoreNumberConditionTest {
   @Test
   void check() {
-    Stack<String> numberStack = new Stack<>();
+    Stack<StringNumber> numberStack = new Stack<>();
     Stack<OperatorSign> operatorSignStack = new Stack<>();
-    numberStack.push("123");
+    numberStack.push(new StringNumber("123"));
     operatorSignStack.push(plus);
-    numberStack.push("345");
+    numberStack.push(new StringNumber("456"));
     var condition = new MoreNumberCondition(numberStack, operatorSignStack);
 
     var actual = condition.check();

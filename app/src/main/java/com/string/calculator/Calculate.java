@@ -12,10 +12,9 @@ public class Calculate {
     this.operationFactory = calculateFactory;
   }
 
-  public String one(String leftValue, String rightValue, OperatorSign operatorSign) {
+  public StringNumber one(Binomial binomial) {
     // 객체 생성을 동적으로 해야하는 경우
-    ArithmeticOperation operation = operationFactory.create(leftValue, rightValue);
-    return operation.calculateOne(operatorSign);
+    ArithmeticOperation operation = operationFactory.create(binomial.left().value(), binomial.right().value());
+    return new StringNumber(operation.calculateOne(binomial.operator()));
   }
-
 }
