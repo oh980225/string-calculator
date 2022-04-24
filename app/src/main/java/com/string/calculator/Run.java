@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import static com.string.calculator.OperatorSign.isSupportedOperator;
 import static com.string.calculator.OperatorSign.valueOf;
+import static java.util.Collections.reverse;
 
 /**
  * 얘는 딱 인풋을 받으면 숫자들은 숫자 스택에, 연산자는 연산자스택에 넣어주는 역할만 하고싶은데 <-- 이것도 책임이 많은편인건가 내가 설계한 계산기 특성상 높은 우선순위의
@@ -26,8 +27,8 @@ import static com.string.calculator.OperatorSign.valueOf;
 // TODO: 상태가 변하는 코드는 그대로 두고, 그 외의 코드 중에서 책임을 분리해보자..!(조건식 같은 것..! 선행 계산 조건 등!)
 // TODO: 인자도 2개 이하로 해보자했으니, Calculate를 위한 연산 대상자를 위한 data class를 만들자..!
 public class Run {
-  private Stack<String> numberStack = new Stack<>();
-  private Stack<OperatorSign> operatorSignStack = new Stack<>();
+  private final Stack<String> numberStack = new Stack<>();
+  private final Stack<OperatorSign> operatorSignStack = new Stack<>();
   private final StringBuilder numberPiece = new StringBuilder();
 
   private final PreCalculateCondition preCalculateCondition =
@@ -63,36 +64,14 @@ public class Run {
   }
 
   private String getResult() {
-    reverseNumberStack();
-    reverseOperatorSignStack();
+    reverse(numberStack);
+    reverse(operatorSignStack);
 
     while (numberStack.size() > 1) {
       addNumber();
     }
 
     return numberStack.pop();
-  }
-
-  private void reverseNumberStack() {
-    Stack<String> temp = new Stack<>();
-
-    while (!numberStack.isEmpty()) {
-      String pop = numberStack.pop();
-      temp.add(pop);
-    }
-
-    numberStack = temp;
-  }
-
-  private void reverseOperatorSignStack() {
-    Stack<OperatorSign> temp = new Stack<>();
-
-    while (!operatorSignStack.isEmpty()) {
-      OperatorSign pop = operatorSignStack.pop();
-      temp.add(pop);
-    }
-
-    operatorSignStack = temp;
   }
 
   private void execute(Character c) {
