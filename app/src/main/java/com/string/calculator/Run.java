@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 import static com.string.calculator.OperatorSign.isSupportedOperator;
+import static com.string.calculator.OperatorSign.valueOf;
 
 /**
  * 얘는 딱 인풋을 받으면 숫자들은 숫자 스택에, 연산자는 연산자스택에 넣어주는 역할만 하고싶은데 <-- 이것도 책임이 많은편인건가 내가 설계한 계산기 특성상 높은 우선순위의
@@ -100,7 +101,7 @@ public class Run {
     }
 
     if (isSupportedOperator(c)) {
-      operatorSignStack.add(OperatorSign.valueOf(c));
+      operatorSignStack.add(valueOf(c));
     }
 
     if (canAddNumberToCollection(c)) {
