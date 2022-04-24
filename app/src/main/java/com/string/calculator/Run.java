@@ -5,6 +5,8 @@ import com.string.calculator.calculate.OperationFactory;
 import java.util.List;
 import java.util.Stack;
 
+import static com.string.calculator.OperatorSign.isSupportedOperator;
+
 /**
  * 얘는 딱 인풋을 받으면 숫자들은 숫자 스택에, 연산자는 연산자스택에 넣어주는 역할만 하고싶은데 <-- 이것도 책임이 많은편인건가 내가 설계한 계산기 특성상 높은 우선순위의
  * 연산자가 있으면 연산을 해줘야 하는 상황....
@@ -27,6 +29,8 @@ public class Run {
   private Stack<OperatorSign> operatorSignStack = new Stack<>();
   private final StringBuilder numberPiece = new StringBuilder();
 
+  private final PreCalculateCondition preCalculateCondition =
+    new AllPreCalculateCondition(numberStack, operatorSignStack);
   private final Calculate calculate;
 
   public Run() {
@@ -52,7 +56,7 @@ public class Run {
       numberPiece.setLength(0);
     }
 
-    if (existHighOperatorSign() && moreNumberThanOperator()) {
+    if (preCalculateCondition.check()) {
       addNumber();
     }
   }
@@ -91,11 +95,11 @@ public class Run {
   }
 
   private void execute(Character c) {
-    if (existHighOperatorSign() && moreNumberThanOperator()) {
+    if (preCalculateCondition.check()) {
       addNumber();
     }
 
-    if (OperatorSign.isSupportedOperator(c)) {
+    if (isSupportedOperator(c)) {
       operatorSignStack.add(OperatorSign.valueOf(c));
     }
 
@@ -119,19 +123,6 @@ public class Run {
     OperatorSign operatorSign = operatorSignStack.pop();
     String result = calculate.one(leftValue, rightValue, operatorSign);
     numberStack.add(result);
-  }
-
-  private boolean existHighOperatorSign() {
-    if (operatorSignStack.isEmpty()) {
-      return false;
-    }
-
-    OperatorSign lastOperator = operatorSignStack.peek();
-    return lastOperator == OperatorSign.divide || lastOperator == OperatorSign.multiply;
-  }
-
-  private boolean moreNumberThanOperator() {
-    return numberStack.size() > operatorSignStack.size();
   }
 
   private boolean canAddNumberToCollection(char c) {

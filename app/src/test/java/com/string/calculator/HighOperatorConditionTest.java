@@ -10,13 +10,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class HighOperatorConditionTest {
   @Test
   void check() {
-    var existHighOperator = new HighOperatorCondition();
     Stack<OperatorSign> stack = new Stack<>();
     stack.push(OperatorSign.plus);
     stack.push(OperatorSign.subtract);
     stack.push(OperatorSign.multiply);
+    var existHighOperator = new HighOperatorCondition(stack);
 
-    var actual = existHighOperator.check(stack);
+    var actual = existHighOperator.check();
+
     assertThat(actual, is(true));
   }
 }
