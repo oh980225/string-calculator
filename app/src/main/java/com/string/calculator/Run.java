@@ -47,7 +47,16 @@ public class Run {
       }
 
       var result = parse(c);
-      if(result.stringNumber() == null &&)
+      if (result.stringNumber() == null && result.operatorSign() == null) {
+        continue;
+      }
+
+      if (result.stringNumber() != null) {
+        numberStack.add(result.stringNumber());
+        continue;
+      }
+
+      operatorSignStack.add(result.operatorSign());
     }
 
     checkLast();
@@ -87,7 +96,7 @@ public class Run {
     }
 
     if (canAddNumberToCollection(c)) { // 파싱
-      return new Result(null, new StringNumber(numberPiece.toString()));;
+      return new Result(null, new StringNumber(numberPiece.toString()));
     }
 
     if (zeroToNine(c)) { // 파싱
@@ -100,7 +109,8 @@ public class Run {
   private boolean zeroToNine(Character c) {
     return '0' <= c && c <= '9';
   }
-// 미리 계산하는건 계산을 위한 책임! 파싱의 책임이 아니다..!
+
+  // 미리 계산하는건 계산을 위한 책임! 파싱의 책임이 아니다..!
   private void addNumber() { // 파싱 + 계산 둘다 쓰임... -> 원래는 계산이어야... 근데 호출 시점은 파싱이 결정...
     StringNumber left = numberStack.pop();
     StringNumber right = numberStack.pop();

@@ -10,17 +10,17 @@ import static com.string.calculator.OperatorSign.valueOf;
 
 public class Parsing {
   // DTO 안쓰고... 출력이 3가지 가능;; 어떻게 1개 이상의 출력..?;;
-  Result parse(Character c) {
-    if (isSupportedOperator(c)) { // 파싱
-      operatorSignStack.add(valueOf(c));
-    }
-
-    if (canAddNumberToCollection(c)) { // 파싱
-      numberStack.add(takeOutNumber());
-    }
-
-    if (zeroToNine(c)) { // 파싱
-      numberPiece.append(c);
-    }
-  }
+//  Result parse(Character c) {
+//    if (isSupportedOperator(c)) { // 파싱
+//      operatorSignStack.add(valueOf(c));
+//    }
+//
+//    if (canAddNumberToCollection(c)) { // 파싱
+//      numberStack.add(takeOutNumber());
+//    }
+//
+//    if (zeroToNine(c)) { // 파싱
+//      numberPiece.append(c);
+//    }
+//  }
 }
