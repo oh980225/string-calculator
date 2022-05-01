@@ -5,8 +5,7 @@ import com.string.calculator.operation.OperationFactory;
 import java.util.List;
 import java.util.Stack;
 
-import static com.string.calculator.OperatorSign.isSupportedOperator;
-import static com.string.calculator.OperatorSign.valueOf;
+import static com.string.calculator.Result.*;
 import static java.util.Collections.reverse;
 
 /**
@@ -41,22 +40,27 @@ public class Run {
       .mapToObj(c -> (char) c)
       .toList();
 
+    Parser parser = new Parser();
+
     for (Character c : chars) {
       if (preCalculateCondition.check()) {  // 계산
         addNumber();
       }
 
-      var result = parse(c);
-      if (result.stringNumber() == null && result.operatorSign() == null) {
+      var result = parser.parse(c);
+      if (result == OPERATOR) {
+        operatorSignStack.add(OperatorSign.valueOf(c));
         continue;
       }
 
-      if (result.stringNumber() != null) {
-        numberStack.add(result.stringNumber());
+      if (result == NUMBER) {
+        numberStack.add(takeOutNumber());
         continue;
       }
 
-      operatorSignStack.add(result.operatorSign());
+      if (result == CONTINUE) {
+        numberPiece.append(c);
+      }
     }
 
     checkLast();
@@ -90,21 +94,21 @@ public class Run {
     return numberStack.pop().value();
   }
 
-  private Result parse(Character c) {
-    if (isSupportedOperator(c)) { // 파싱
-      return new Result(valueOf(c), null);
-    }
-
-    if (canAddNumberToCollection(c)) { // 파싱
-      return new Result(null, new StringNumber(numberPiece.toString()));
-    }
-
-    if (zeroToNine(c)) { // 파싱
-      return new Result(null, null);
-    }
-
-    throw new IllegalArgumentException("Good Game");
-  }
+//  private Result parse(Character c) {
+//    if (isSupportedOperator(c)) { // 파싱
+//      return new Result(valueOf(c), null);
+//    }
+//
+//    if (canAddNumberToCollection(c)) { // 파싱
+//      return new Result(null, new StringNumber(numberPiece.toString()));
+//    }
+//
+//    if (zeroToNine(c)) { // 파싱
+//      return new Result(null, null);
+//    }
+//
+//    throw new IllegalArgumentException("Good Game");
+//  }
 
   private boolean zeroToNine(Character c) {
     return '0' <= c && c <= '9';
