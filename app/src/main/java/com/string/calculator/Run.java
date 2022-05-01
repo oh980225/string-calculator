@@ -23,7 +23,7 @@ import static java.util.Collections.reverse;
 // 상태와 관련된 책임을 나누는 순간 depth가 추가된다...
 
 // 파싱 + 계산 + 오케스트레이션[관리 책임]
-public class Run {
+public class Run implements ControlState {
   // 상태 관련
   private final Stack<StringNumber> numberStack = new Stack<>();
   private final Stack<OperatorSign> operatorSignStack = new Stack<>();
@@ -39,18 +39,45 @@ public class Run {
       .mapToObj(c -> (char) c)
       .toList();
 
-    Parser parser = new Parser();
+    Parser parser = new Parser(this);
 
     for (Character c : chars) {
       if (preCalculateCondition.check()) {  // 계산
         addNumber();
       }
 
-      parser.parse(c, this);
+      parser.parse(c);
     }
 
     checkLast();
     return getResult();
+  }
+
+  @Override
+  public boolean isPresentNumberPiece() {
+    return !numberPiece.isEmpty();
+  }
+
+  @Override
+  public void pushNumberPiece(char c) {
+    numberPiece.append(c);
+  }
+
+  @Override
+  public void pushOperator(OperatorSign operatorSign) {
+    operatorSignStack.push(operatorSign);
+  }
+
+  @Override
+  public void pushNumber(StringNumber stringNumber) {
+    numberStack.push(stringNumber);
+  }
+
+  @Override
+  public StringNumber takeOutNumber() {
+    var number = new StringNumber(numberPiece.toString());
+    numberPiece.setLength(0);
+    return number;
   }
 
   private void checkLast() {
@@ -61,20 +88,6 @@ public class Run {
     if (preCalculateCondition.check()) {
       addNumber();
     }
-  }
-
-  boolean isPresentNumberPiece() {
-    return !numberPiece.isEmpty();
-  }
-
-  void pushNumberPiece(char c) {
-    numberPiece.append(c);
-  }
-
-  StringNumber takeOutNumber() {
-    var number = new StringNumber(numberPiece.toString());
-    numberPiece.setLength(0);
-    return number;
   }
 
   private String getResult() {
@@ -95,13 +108,5 @@ public class Run {
     OperatorSign operatorSign = operatorSignStack.pop();
     StringNumber result = calculator.execute(new Binomial(left, right, operatorSign));
     numberStack.add(result);
-  }
-
-  void pushOperator(OperatorSign operatorSign) {
-    operatorSignStack.push(operatorSign);
-  }
-
-  void pushNumber(StringNumber stringNumber) {
-    numberStack.push(stringNumber);
   }
 }
