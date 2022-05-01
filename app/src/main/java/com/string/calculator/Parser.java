@@ -8,6 +8,7 @@ import static com.string.calculator.Result.*;
 // ENUM? -> 얘도 DTO인가..? => 고민해봐라...
 // interface로..? 다형성 이용해서..?
 // 1. Enum을 사용하는 방법
+// 2. 다형성을 이용하는 방법
 
 public class Parser {
   //   DTO 안쓰고... 출력이 3가지 가능;; 어떻게 1개 이상의 출력..?;;

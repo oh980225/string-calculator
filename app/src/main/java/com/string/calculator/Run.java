@@ -53,7 +53,7 @@ public class Run {
         continue;
       }
 
-      if (result == NUMBER) {
+      if (result == NUMBER && !numberPiece.isEmpty()) {
         numberStack.add(takeOutNumber());
         continue;
       }
