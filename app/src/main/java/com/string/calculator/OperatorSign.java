@@ -3,7 +3,7 @@ package com.string.calculator;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum OperatorSign {
+public enum OperatorSign implements Result {
 
   plus('+'),
   subtract('-'),

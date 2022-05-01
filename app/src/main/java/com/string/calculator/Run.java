@@ -5,7 +5,6 @@ import com.string.calculator.operation.OperationFactory;
 import java.util.List;
 import java.util.Stack;
 
-import static com.string.calculator.Result.*;
 import static java.util.Collections.reverse;
 
 /**
@@ -47,20 +46,7 @@ public class Run {
         addNumber();
       }
 
-      var result = parser.parse(c);
-      if (result == OPERATOR) {
-        operatorSignStack.add(OperatorSign.valueOf(c));
-        continue;
-      }
-
-      if (result == NUMBER && !numberPiece.isEmpty()) {
-        numberStack.add(takeOutNumber());
-        continue;
-      }
-
-      if (result == CONTINUE) {
-        numberPiece.append(c);
-      }
+      parser.parse(c, this);
     }
 
     checkLast();
@@ -77,7 +63,15 @@ public class Run {
     }
   }
 
-  private StringNumber takeOutNumber() {
+  boolean isPresentNumberPiece() {
+    return !numberPiece.isEmpty();
+  }
+
+  void pushNumberPiece(char c) {
+    numberPiece.append(c);
+  }
+
+  StringNumber takeOutNumber() {
     var number = new StringNumber(numberPiece.toString());
     numberPiece.setLength(0);
     return number;
@@ -94,26 +88,6 @@ public class Run {
     return numberStack.pop().value();
   }
 
-//  private Result parse(Character c) {
-//    if (isSupportedOperator(c)) { // 파싱
-//      return new Result(valueOf(c), null);
-//    }
-//
-//    if (canAddNumberToCollection(c)) { // 파싱
-//      return new Result(null, new StringNumber(numberPiece.toString()));
-//    }
-//
-//    if (zeroToNine(c)) { // 파싱
-//      return new Result(null, null);
-//    }
-//
-//    throw new IllegalArgumentException("Good Game");
-//  }
-
-  private boolean zeroToNine(Character c) {
-    return '0' <= c && c <= '9';
-  }
-
   // 미리 계산하는건 계산을 위한 책임! 파싱의 책임이 아니다..!
   private void addNumber() { // 파싱 + 계산 둘다 쓰임... -> 원래는 계산이어야... 근데 호출 시점은 파싱이 결정...
     StringNumber left = numberStack.pop();
@@ -123,7 +97,11 @@ public class Run {
     numberStack.add(result);
   }
 
-  private boolean canAddNumberToCollection(char c) {
-    return c == ' ' && !numberPiece.isEmpty();
+  void pushOperator(OperatorSign operatorSign) {
+    operatorSignStack.push(operatorSign);
+  }
+
+  void pushNumber(StringNumber stringNumber) {
+    numberStack.push(stringNumber);
   }
 }
